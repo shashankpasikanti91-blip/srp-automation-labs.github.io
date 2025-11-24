@@ -5,17 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SRP Automation Labs</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; }
-    header { background-color: #0073e6; color: white; padding: 20px 0; text-align: center; }
-    nav { background-color: #005bb5; display: flex; justify-content: center; }
-    nav a { color: white; padding: 14px 20px; text-decoration: none; font-weight: bold; }
-    nav a:hover { background-color: #004080; }
-    section { padding: 40px 20px; max-width: 900px; margin: auto; }
-    h1, h2 { color: #0073e6; }
-    .btn { display: inline-block; padding: 12px 20px; background-color: #0073e6; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px; }
-    footer { background-color: #222; color: white; text-align: center; padding: 20px 0; margin-top: 40px; }
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 0; 
+      padding: 0; 
+      background-color: #f9f9f9; 
+    }
+    header { 
+      background-color: #0073e6; 
+      color: white; 
+      padding: 20px 0; 
+      text-align: center; 
+    }
+    nav { 
+      background-color: #005bb5; 
+      display: flex; 
+      justify-content: center; 
+    }
+    nav a { 
+      color: white; 
+      padding: 14px 20px; 
+      text-decoration: none; 
+      font-weight: bold; 
+    }
+    nav a:hover { 
+      background-color: #004080; 
+    }
+    section { 
+      padding: 40px 20px; 
+      max-width: 900px; 
+      margin: auto; 
+    }
+    h1, h2 { 
+      color: #0073e6; 
+    }
+    .btn { 
+      display: inline-block; 
+      padding: 12px 20px; 
+      background-color: #0073e6; 
+      color: white; 
+      text-decoration: none; 
+      border-radius: 5px; 
+      margin-top: 10px; 
+    }
+    footer { 
+      background-color: #222; 
+      color: white; 
+      text-align: center; 
+      padding: 20px 0; 
+      margin-top: 40px; 
+    }
+
+    /* 🔵 Contact Form Styling */
+    #contactSection {
+      background: #ffffff;
+      padding: 30px;
+      margin: 40px auto;
+      max-width: 600px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    #contactForm input, 
+    #contactForm textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    #contactForm button {
+      width: 100%;
+      padding: 14px;
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 18px;
+    }
+    #contactForm button:hover {
+      background-color: #005bb5;
+    }
+    #status {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 16px;
+      color: green;
+    }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -33,7 +113,7 @@
 
   <section>
     <h2>About SRP Automation Labs</h2>
-    <p>SRP Automation Labs is dedicated to creating innovative automation solutions using n8n, AI, and cloud tools. We focus on helping businesses and individuals streamline repetitive tasks and increase productivity.</p>
+    <p>SRP Automation Labs is dedicated to creating innovative automation solutions using n8n, AI, and cloud tools.</p>
 
     <h2>Our Projects</h2>
     <ul>
@@ -47,21 +127,48 @@
     <a class="btn" href="https://shashankpasikanti.app.n8n.cloud/form/c8eebb9a-3bfc-46d7-a66f-d81733a460ef" target="_blank">Apply Here</a>
   </section>
 
-  <footer>
-    <p>© 2025 SRP Automation Labs | Email: <a href="mailto:shashank@example.com" style="color:white;">shashank@example.com</a></p>
-  </footer>
-<form id="contactForm">
-  <h2>Contact Us</h2>
-  
-  <input type="text" name="name" placeholder="Your Name" required />
-  <input type="email" name="email" placeholder="Your Email" required />
-  <textarea name="message" placeholder="Message" required></textarea>
-  
-  <button type="submit">Submit</button>
-</form>
+  <!-- Contact Form Section -->
+  <section id="contactSection">
+    <h2>Contact Us</h2>
 
-<p id="status"></p>
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" placeholder="Your Message" required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+
+    <p id="status"></p>
+  </section>
+
+  <footer>
+    <p>© 2025 SRP Automation Labs | Email: 
+    <a href="mailto:shashank@example.com" style="color:white;">shashank@example.com</a></p>
+  </footer>
+
+  <!-- 🔵 Webhook Script -->
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const json = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch("YOUR_WEBHOOK_URL_HERE", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(json)
+        });
+
+        document.getElementById("status").innerText = "✔ Message sent successfully!";
+        this.reset();
+      } catch (err) {
+        document.getElementById("status").innerText = "❌ Failed to send message. Try again.";
+      }
+    });
+  </script>
 
 </body>
 </html>
-
